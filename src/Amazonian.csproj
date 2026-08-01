@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Aspenlaub.Net.GitHub.CSharp.Amazonian</AssemblyName>
+    <RootNamespace>Aspenlaub.Net.GitHub.CSharp.Amazonian</RootNamespace>
+    <GenerateBuildInfoConfigFile>false</GenerateBuildInfoConfigFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>false</Deterministic>
+    <AssemblyTitle>Aspenlaub.Net.GitHub.CSharp.Amazonian</AssemblyTitle>
+    <AssemblyProduct>Aspenlaub.Net.GitHub.CSharp.Amazonian</AssemblyProduct>
+    <VersionDays>$([System.DateTime]::UtcNow.Subtract($([System.DateTime]::Parse("2019-07-24"))).Days.ToString())</VersionDays>
+    <VersionMinutes>$([System.Math]::Floor($([System.DateTime]::UtcNow.Subtract($([System.DateTime]::UtcNow.Date)).TotalMinutes)).ToString())</VersionMinutes>
+    <Version>2.4.$(VersionDays).$(VersionMinutes)</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/aspenlaub/Amazonian.git</RepositoryUrl>
+    <RepositoryBranch>master</RepositoryBranch>
+    <PackageId>Amazonian</PackageId>
+    <MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <NuspecFile>Amazonian.nuspec</NuspecFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Test\**" />
+    <None Remove="Test\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Amazonian.nuspec" />
+    <None Remove="packageicon.ico" />
+    <None Remove="packageicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packageicon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="9.3.1" />
+    <PackageReference Include="Pegh" Version="2.0.2550.432" />
+  </ItemGroup>
+</Project>

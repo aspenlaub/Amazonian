@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Amazonian.csproj" />
+  <Project Path="Test/Amazonian.Test.csproj" />
+</Solution>
