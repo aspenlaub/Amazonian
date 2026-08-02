@@ -15,10 +15,13 @@ public class AmazonianRepositoryTest {
     private const int _amount1 = 4711, _amount2 = 4712;
 
     private readonly IAmazonianRepository _Sut;
+    private readonly ISecretRepository _SecretRepository;
+    private IAmazonianRepository _LoadingSut;
 
     public AmazonianRepositoryTest() {
         IContainer container = new ContainerBuilder().UsePegh(null).Build();
-        _Sut = new AmazonianRepository(container.Resolve<ISecretRepository>());
+        _SecretRepository = container.Resolve<ISecretRepository>();
+        _Sut = new AmazonianRepository(_SecretRepository);
     }
 
     [TestCleanup]
@@ -33,7 +36,25 @@ public class AmazonianRepositoryTest {
         await _Sut.SaveOrdersAsync([ order1, order2 ]);
     }
 
-    private AmazonianOrder CreateOrder(string orderNumber, int amount) {
+    [TestMethod]
+    public async Task CanFindOrderForPosting() {
+        AmazonianOrder order1 = CreateOrder(_orderNumber1, _amount1);
+        AmazonianOrder order2 = CreateOrder(_orderNumber2, _amount2);
+        await _Sut.SaveOrdersAsync([order1, order2]);
+        _LoadingSut = new AmazonianRepository(_SecretRepository);
+        string postingText = "";
+        AmazonianOrder order = await _LoadingSut.FindOrderForPostingAsync(postingText);
+        Assert.IsNull(order);
+        postingText = "AD DC";
+        order = await _LoadingSut.FindOrderForPostingAsync(postingText);
+        Assert.IsNull(order);
+        postingText = $"AD {order2.OrderNumber} DC";
+        order = await _LoadingSut.FindOrderForPostingAsync(postingText);
+        Assert.IsNotNull(order);
+        Assert.AreEqual(order2.OrderNumber, order.OrderNumber);
+    }
+
+    private static AmazonianOrder CreateOrder(string orderNumber, int amount) {
         return new AmazonianOrder {
             OrderNumber = orderNumber,
             AmountInEuroRoundedDown = amount,
