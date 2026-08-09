@@ -44,7 +44,7 @@ public class AmazonianRepository(ISecretRepository secretRepository) : IAmazonia
 
     public async Task<AmazonianOrder> FindOrderForPostingAsync(string postingRemark) {
         await FillOrderCacheAsync();
-        string[] parts = postingRemark.Split(' ');
+        string[] parts = postingRemark.Replace('/', ' ').Split(' ');
         string part = parts.FirstOrDefault(p => _OrderCache.ContainsKey(p));
         return (part == null) ? null : _OrderCache[part];
     }
