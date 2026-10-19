@@ -39,6 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="9.3.4" />
-    <PackageReference Include="Pegh" Version="2.0.2620.846" />
+    <PackageReference Include="Pegh" Version="2.0.2644.477" />
   </ItemGroup>
 </Project>
